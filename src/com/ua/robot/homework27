@@ -1,0 +1,51 @@
+create database dzhulinskyy;
+
+use dzhulinskyy;
+
+create table city (
+    country_name varchar (20) NOT NULL,
+    city_name varchar (20) NOT NULL,
+    city_area float(3),
+    city_population int,
+    PRIMARY KEY (city_name)
+);
+
+create table country (
+    country_name varchar (20) NOT NULL REFERENCES city(country_name),
+    country_area float,
+    country_population int,
+    PRIMARY KEY (country_name)
+);
+
+insert into city (country_name, city_name, city_area, city_population) values ('Portugal', 'Lisbon', 100.05, 544851);
+insert into city (country_name, city_name, city_area, city_population) values ('France', 'Paris', 105.4, 2102650);
+insert into city (country_name, city_name, city_area, city_population) values ('Denmark', 'Copenhagen', 183.2, 1366301);
+insert into city (country_name, city_name, city_area, city_population) values ('Ukraine','Kyiv', 839, 2952301);
+insert into city (country_name, city_name, city_area, city_population) values ('France', 'Marseille', 240.62, 870321);
+insert into city (country_name, city_name, city_area, city_population) values ('Ukraine','Lviv', 148.9, 717273);
+insert into city (country_name, city_name, city_area, city_population) values ('Spain','Barcelona', 101.4, 1620343);
+
+insert into country (country_name, country_area, country_population) values ('Portugal', 92212, 10421117);
+insert into country (country_name, country_area, country_population) values ('France', 643801, 68042591);
+insert into country (country_name, country_area, country_population) values ('Denmark', 42943, 5935619);
+insert into country (country_name, country_area, country_population) values ('Ukraine', 603628, 36744636);
+insert into country (country_name, country_area, country_population) values ('German', 357592, 84270625);
+
+select * from city;
+select * from country;
+
+--Method 1
+select city.*, country.* FROM city INNER JOIN country ON city.country_name = country.country_name
+order by country.country_name
+
+-- Method 2
+select * from city left join country on city.country_name = country.country_name
+order by city.country_name
+union
+select * from city right join country on city.country_name = country.country_name
+
+--Method 3
+select * from city right join country on city.country_name = country.country_name
+union
+select * from city left join country on city.country_name = country.country_name
+order by country.country_name
